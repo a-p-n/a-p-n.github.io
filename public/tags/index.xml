@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on ___apn___</title>
+    <link>http://localhost:40275/tags/</link>
+    <description>Recent content in Tags on ___apn___</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 04 Dec 2023 22:49:56 +0000</lastBuildDate>
+    <atom:link href="http://localhost:40275/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Crypto</title>
+      <link>http://localhost:40275/tags/crypto/</link>
+      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
+      <guid>http://localhost:40275/tags/crypto/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CTF</title>
+      <link>http://localhost:40275/tags/ctf/</link>
+      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
+      <guid>http://localhost:40275/tags/ctf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SquareCTF2023</title>
+      <link>http://localhost:40275/tags/squarectf2023/</link>
+      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
+      <guid>http://localhost:40275/tags/squarectf2023/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

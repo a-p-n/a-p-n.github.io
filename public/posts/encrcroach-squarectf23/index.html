@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=40275&amp;path=livereload" data-no-instant defer></script>
+    <title>___apn___</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#000084" />
+    <link rel="icon" href="http://localhost:40275//favicon.ico">
+    <link rel="canonical" href="http://localhost:40275/">
+    
+    
+    <link rel="stylesheet" href="/%20css/custom.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></button>
+            <a class="brand" href="http://localhost:40275/">___apn___</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    
+                    
+                        
+                            <li>
+                                <a href="/about">
+                                    
+                                    <span>About</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/posts/">
+                                    
+                                    <span>Blog</span>
+                                </a>
+                            </li>
+                        
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav><div id="content" class="container">
+
+<div class="row-fluid navmargin">
+    <div class="page-header">
+    <h1>enCRCroach - SquareCTF 2023 - Mon, Dec 4, 2023</h1>
+    
+    <div style="margin-top: 10px;">
+        <strong>Tags:</strong>
+        
+        <a href="/%20/tags/squarectf2023" class="post-tag">SquareCTF2023</a>
+        
+        <a href="/%20/tags/ctf" class="post-tag">CTF</a>
+        
+        <a href="/%20/tags/crypto" class="post-tag">Crypto</a>
+        
+    </div>
+    
+</div>
+    <p class="lead"></p>
+    <ul>
+<li>CTR bit-flipping attack along with CRC recomputation</li>
+</ul>
+<p><strong>Challenge Points</strong>: 250</p>
+<p><strong>No. of solves</strong>: 29</p>
+<h2 id="challenge-description">Challenge Description</h2>
+<p>I implemented a super secure alternative to JWE and disabled the &lsquo;admin&rsquo; account, but our server traffic logs still shows someone reading out their flag. How is that possible?!</p>
+<h2 id="implementation">IMPLEMENTATION</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> hashlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> secrets
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> fastcrc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> werkzeug.security
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> cryptography.hazmat.primitives.ciphers <span style="color:#f92672">import</span> Cipher, algorithms, modes
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, Response, request, send_from_directory
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Flask(__name__)
+</span></span><span style="display:flex;"><span>SERVER_KEY <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;SERVER_KEY&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>))
+</span></span><span style="display:flex;"><span>IV_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>NONCE_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>
+</span></span><span style="display:flex;"><span>MAC_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>KEY_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>USER_DB <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Someone keeps hacking us and reading out the admin&#39;s /flag.txt.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Disabling this account to see if that helps.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;admin&#34;: &#34;7a2f445babffa758471e3341a1fadce9abeff194aded071e4fd48b25add856a7&#34;,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Other accounts. File a ticket similar to QDB-244321 to add or modify passwords.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;azure&#34;</span>: <span style="color:#e6db74">&#34;9631758175d2f048db1964727ad2efef4233099b97f383e4f1e121c900f3e722&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;cthon&#34;</span>: <span style="color:#e6db74">&#34;980809b1482352ae59be5d3ede484c0835b46985309a04ac1bad70b22a167670&#34;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">response</span>(text, status<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Response(text, status<span style="color:#f92672">=</span>status, mimetype<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/plain&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/&#34;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;GET&#34;</span>, ])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">root</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> response(<span style="color:#e6db74">&#34;&#34;&#34;Endpoints:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - /auth?user=&lt;user&gt;: Auth a user with an optional password. Returns an auth token.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - /read/&lt;path&gt;?token=&lt;token&gt;: Read out a file from a user&#39;s directory. Token required.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/auth&#34;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;GET&#34;</span>, ])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">auth</span>():
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;user&#34;</span>)
+</span></span><span style="display:flex;"><span>    password <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;password&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> user <span style="color:#f92672">or</span> user <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> USER_DB:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response(<span style="color:#e6db74">&#34;Bad or missing &#39;user&#39;&#34;</span>, <span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>    password_hash <span style="color:#f92672">=</span> USER_DB[user]
+</span></span><span style="display:flex;"><span>    given <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>pbkdf2_hmac(<span style="color:#e6db74">&#34;SHA256&#34;</span>, password<span style="color:#f92672">.</span>encode(), user<span style="color:#f92672">.</span>encode(), <span style="color:#ae81ff">1000</span>)<span style="color:#f92672">.</span>hex()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> password_hash <span style="color:#f92672">!=</span> given:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response(<span style="color:#e6db74">&#34;Bad &#39;password&#39;&#34;</span>, <span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> response(encrypt_token(user, SERVER_KEY)<span style="color:#f92672">.</span>hex())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/read&#34;</span>, defaults<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;path&#34;</span>: <span style="color:#66d9ef">None</span>})
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/read/&lt;path&gt;&#34;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;GET&#34;</span>, ])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read</span>(path: str):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> decrypt_token(bytes<span style="color:#f92672">.</span>fromhex(request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)), SERVER_KEY)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> user:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response(<span style="color:#e6db74">&#34;Bad or missing token&#34;</span>, <span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>    user_dir <span style="color:#f92672">=</span> werkzeug<span style="color:#f92672">.</span>security<span style="color:#f92672">.</span>safe_join(<span style="color:#e6db74">&#34;users&#34;</span>, user)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> path <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        listing <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>join(sorted(os<span style="color:#f92672">.</span>listdir(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(app<span style="color:#f92672">.</span>root_path, user_dir))))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response(listing)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> send_from_directory(user_dir, path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">encrypt_token</span>(user: str, key: bytes) <span style="color:#f92672">-&gt;</span> bytes:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Encrypt the user string using &#34;authenticated encryption&#34;.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    JWTs and JWEs scare me. Too many CVEs! I think I can do better...
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Here&#39;s the token format we use to encrypt and authenticate a user&#39;s name.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    This is sent to/from the server in ascii-hex:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      len :  16    variable      42      8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      data:  IV ||   USER   || NONCE || MAC
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  &#39;------------------------&#39; Encrypted
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> len(key) <span style="color:#f92672">==</span> KEY_LEN
+</span></span><span style="display:flex;"><span>    user_bytes <span style="color:#f92672">=</span> user<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>    iv <span style="color:#f92672">=</span> secrets<span style="color:#f92672">.</span>token_bytes(IV_LEN)
+</span></span><span style="display:flex;"><span>    nonce <span style="color:#f92672">=</span> secrets<span style="color:#f92672">.</span>token_bytes(NONCE_LEN)
+</span></span><span style="display:flex;"><span>    cipher <span style="color:#f92672">=</span> Cipher(algorithms<span style="color:#f92672">.</span>AES(key), modes<span style="color:#f92672">.</span>CTR(iv))<span style="color:#f92672">.</span>encryptor()
+</span></span><span style="display:flex;"><span>    mac <span style="color:#f92672">=</span> gen_mac(iv <span style="color:#f92672">+</span> user_bytes <span style="color:#f92672">+</span> nonce)
+</span></span><span style="display:flex;"><span>    ciphertext <span style="color:#f92672">=</span> cipher<span style="color:#f92672">.</span>update(user_bytes <span style="color:#f92672">+</span> nonce <span style="color:#f92672">+</span> mac) <span style="color:#f92672">+</span> cipher<span style="color:#f92672">.</span>finalize()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> iv <span style="color:#f92672">+</span> ciphertext
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decrypt_token</span>(token: bytes, key: bytes) <span style="color:#f92672">-&gt;</span> [<span style="color:#66d9ef">None</span>, str]:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> len(key) <span style="color:#f92672">==</span> KEY_LEN
+</span></span><span style="display:flex;"><span>    iv, ciphertext <span style="color:#f92672">=</span> splitup(token, IV_LEN)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> iv <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> ciphertext:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    cipher <span style="color:#f92672">=</span> Cipher(algorithms<span style="color:#f92672">.</span>AES(key), modes<span style="color:#f92672">.</span>CTR(iv))<span style="color:#f92672">.</span>decryptor()
+</span></span><span style="display:flex;"><span>    plaintext <span style="color:#f92672">=</span> cipher<span style="color:#f92672">.</span>update(ciphertext) <span style="color:#f92672">+</span> cipher<span style="color:#f92672">.</span>finalize()
+</span></span><span style="display:flex;"><span>    user_bytes, nonce, mac <span style="color:#f92672">=</span> splitup(plaintext, <span style="color:#f92672">-</span>(NONCE_LEN <span style="color:#f92672">+</span> MAC_LEN), <span style="color:#f92672">-</span>MAC_LEN)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> user_bytes <span style="color:#f92672">or</span> len(nonce) <span style="color:#f92672">!=</span> NONCE_LEN <span style="color:#f92672">or</span> len(mac) <span style="color:#f92672">!=</span> MAC_LEN:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    computed <span style="color:#f92672">=</span> gen_mac(iv <span style="color:#f92672">+</span> user_bytes <span style="color:#f92672">+</span> nonce)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> computed <span style="color:#f92672">!=</span> mac:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> user_bytes<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gen_mac</span>(data: bytes) <span style="color:#f92672">-&gt;</span> bytes:
+</span></span><span style="display:flex;"><span>    crc <span style="color:#f92672">=</span> fastcrc<span style="color:#f92672">.</span>crc64<span style="color:#f92672">.</span>go_iso(data)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> int<span style="color:#f92672">.</span>to_bytes(crc, length<span style="color:#f92672">=</span>MAC_LEN, byteorder<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;big&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">splitup</span>(data: bytes, <span style="color:#f92672">*</span>indices):
+</span></span><span style="display:flex;"><span>    last_index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> index <span style="color:#f92672">in</span> indices:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span> data[last_index:index]
+</span></span><span style="display:flex;"><span>        last_index <span style="color:#f92672">=</span> index
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> data[last_index:]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    app<span style="color:#f92672">.</span>run(host<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>, port<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;FLASK_SERVER_PORT&#34;</span>), debug<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><h2 id="analysis-of-the-challenge">ANALYSIS OF THE CHALLENGE</h2>
+<ul>
+<li>Provided by a Flask server with predefined key parameters, as follows:
+<ul>
+<li>IV (initial vector): 16 bytes</li>
+<li>Nonce: 42 bytes</li>
+<li>MAC (Message Access Address): 8 bytes</li>
+<li>Key: 32 bytes</li>
+</ul>
+</li>
+<li>The server uses the &ldquo;USER_DB&rdquo; dictionary which securely stores the &ldquo;azure&rdquo; and &ldquo;cthon&rdquo; user names with their hashed passwords. The password hashing algorithm used here is <strong>SHA256</strong>.</li>
+<li>There are two endpoints for communication:
+<ol>
+<li><strong>/auth</strong> - This endpoint returns an authentication token when the user succeeds.</li>
+<li><strong>/read</strong> - Used to decrypt the token to validate the request and obtain the username.</li>
+</ol>
+</li>
+</ul>
+<h3 id="authentication">AUTHENTICATION</h3>
+<ul>
+<li>
+<p>The certification process has the following conclusions:
+<strong>/auth?user=username&amp;password=password</strong>.</p>
+</li>
+<li>
+<p>After receiving the username and password, the server performs the following tasks:</p>
+<ol>
+<li>Validates the assigned username and password with respect to information in the user database.</li>
+<li>If the authentication is successful, the server proceeds to generate an authentication token using a custom format.</li>
+</ol>
+</li>
+<li>
+<p>The configuration described above ensures that the authentication system on the Flask server is secure and properly configured. It includes robust mechanisms for verifying user credentials and creating trusted authentication tokens.</p>
+</li>
+</ul>
+<h3 id="token-format">TOKEN FORMAT</h3>
+<ul>
+<li>The token follows a specific format: <code>IV || User || NONCE || MAC</code></li>
+<li>The value of tokens includes:
+<ul>
+<li><strong>IV:</strong> The initial vector is used for AES-CTR encryption.</li>
+<li><strong>USER:</strong> User data, encrypted using AES-CTR mode.</li>
+<li><strong>NONCE:</strong> A random nonce.</li>
+<li><strong>MAC:</strong> Message Authentication Code generated using 64-bit CRC</li>
+</ul>
+</li>
+</ul>
+<h3 id="message-authentication-code-mac">MESSAGE AUTHENTICATION CODE (MAC)</h3>
+<ul>
+<li>A MAC is a short piece of data ensuring a message&rsquo;s integrity, confirming its rightful sender, and preventing unauthorized alterations, bolstering communication security.</li>
+</ul>
+<h3 id="encryption-and-mac-generation">ENCRYPTION AND MAC GENERATION</h3>
+<ul>
+<li>The <code>encrypt_token</code> function manages the encryption of user data using AES-CTR mode, ensuring the confidentiality of the information.</li>
+<li>Additionally, the <code>gen_mac</code> function computes a 64-bit CRC, serving as the Message Authentication Code (MAC), to authenticate the data.</li>
+</ul>
+<h3 id="token-decryption">TOKEN DECRYPTION</h3>
+<ul>
+<li>The /read endpoint allows reading files from a user&rsquo;s directory and requires a valid authentication token.</li>
+<li>The decrypt_token function decrypts the token, verifies the MAC, and returns the user data.</li>
+</ul>
+<h3 id="flag-access">FLAG ACCESS</h3>
+<ul>
+<li>When you use the modified token to access <code>/read/flag.txt</code>, you unlock the flag.</li>
+</ul>
+<h2 id="working-of-crc">WORKING OF CRC</h2>
+<ul>
+<li>Cyclic Redundancy Check (CRC) serves as a method for error detection and correction, ensuring data integrity during transmission.</li>
+<li>CRC uses a systematic approach to double-check if the data is accurate.</li>
+</ul>
+<p><img src="/enCRCroach-SquareCTF23/crc.png" alt="image"></p>
+<h3 id="sender-side">SENDER SIDE</h3>
+<ul>
+<li>The sender calculates a CRC value by treating data as a binary number and dividing it by a generator polynomial. This remainder becomes the CRC, appended to the original data before sending it to the receiver.</li>
+</ul>
+<p><img src="/enCRCroach-SquareCTF23/sender.png" alt="image"></p>
+<h3 id="receiver-side">RECEIVER SIDE</h3>
+<ul>
+<li>Upon receiving data, the receiver calculates its CRC value using the sender&rsquo;s method and compares it with the received CRC value to determine data integrity.</li>
+</ul>
+<p><img src="/enCRCroach-SquareCTF23/receiver.png" alt="image"></p>
+<h3 id="example">EXAMPLE</h3>
+<ul>
+<li>Consider the following scenario with a data bit to be sent as &ldquo;100100&rdquo; and a polynomial equation &ldquo;x^3 + x^2 + 1&rdquo;:</li>
+<li>Data bit: 100100</li>
+<li>Divisor (k): 1101 (derived from the given polynomial)</li>
+<li>Appending Zeros: (k-1) -&gt; (4-1) -&gt; 3</li>
+<li>Dividend: 100100000</li>
+<li>This process shows how CRC ensures data integrity by detecting errors in transmitted data.</li>
+</ul>
+<h2 id="property-of-crc">PROPERTY OF CRC</h2>
+<ul>
+<li>The MAC is generated using CRC on the concatenation of IV, user_bytes, and nonce and then it is being encrypted in AES-CTR mode.</li>
+<li>Contrary to a typical bit-flipping attack scenario, where altering bits would invalidate the CRC, CRC exhibits a unique property.</li>
+<li>After flipping bits on the CTR mode encrypted token, the CRC becomes invalid. However, CRC&rsquo;s specific computational nature allows for the derivation of a new CRC from the old one.</li>
+<li>This property, illustrated by the formula:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>CRC(A ⊕ B ⊕ (00...)) = CRC(A) ⊕ CRC(B) ⊕ CRC(00...)
+</span></span></code></pre></div><h2 id="aes-ctr-mode">AES-CTR MODE</h2>
+<ul>
+<li>AES-CTR uses an Initialization Vector (IV) and a counter to create a pseudorandom key stream, which is XORed with plaintext blocks for encryption, allowing parallel processing for secure and efficient data encryption.</li>
+</ul>
+<p><img src="/enCRCroach-SquareCTF23/aes-ctr-mode.png" alt="image"></p>
+<h2 id="challenge-objective">CHALLENGE OBJECTIVE:</h2>
+<ul>
+<li>The challenge at hand revolves around exploiting the CRC64-based MAC encrypted in AES-CTR mode through a bit-flipping attack.</li>
+<li>The goal is to manipulate the user data in the token while ensuring a valid CRC64-based MAC.</li>
+<li>Creating a payload that, when XORed with the original token, results in a modified token with a valid MAC is the primary objective.</li>
+</ul>
+<h2 id="solution">SOLUTION</h2>
+<ul>
+<li>Discovered a user&rsquo;s password from a hint given in the source code :
+<em>Other accounts. File a ticket similar to QDB-244321 to add or modify passwords.</em></li>
+<li>Upon investigating ticket QDB-244321, the password for the &ldquo;azure&rdquo; account was found <a href="https://www.social-engineer.org/wiki/archives/BlogPosts/IRCpassword.html">here</a>.</li>
+<li>To get the token, append the username and the password to the url.</li>
+<li>To change the user, utilize XOR operations, effectively changing the user to &ldquo;admin&rdquo; while preserving the CRC integrity.</li>
+<li>Xor the token with the xor(&ldquo;admin&rdquo;, &ldquo;azure&rdquo;) which will give us &ldquo;admin&rdquo; back.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> xor(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span><span style="color:#f92672">+</span>xor(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;azure&#39;</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">50</span>, token)
+</span></span></code></pre></div><ul>
+<li>Next, to manipulate the CRC value without invalidating it, XOR two MAC values:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>mac = xor(gen_mac(b&#39;\x00&#39;*16+xor(b&#39;admin&#39;, b&#39;azure&#39;)+b&#39;\x00&#39;*42), gen_mac(b&#39;\x00&#39;*63))
+</span></span></code></pre></div><ul>
+<li>This XOR operation leveraged the linear property of CRC, simplifying the expression to <code>crc(&quot;admin&quot;) ⊕ crc(&quot;azure&quot;)</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>crc(&#34;admin&#34;) ⊕ crc(&#34;azure&#34;) ⊕ crc(b&#39;\x00&#39;* 5) = crc(&#34;admin&#34;) ⊕ crc(&#34;azure&#34;)
+</span></span></code></pre></div><ul>
+<li>As a result, the calculated MAC for the &ldquo;admin&rdquo; user was obtained.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>crc(&#34;azure&#34;) ⊕ crc(&#34;admin&#34;) ⊕ crc(&#34;azure&#34;) = crc(&#34;admin&#34;)
+</span></span></code></pre></div><ul>
+<li>Finally, submitting this payload with the modified MAC value provided access to the flag.</li>
+</ul>
+<h2 id="script">SCRIPT</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> fastcrc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> xor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Function to generate MAC</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gen_mac</span>(data: bytes) <span style="color:#f92672">-&gt;</span> bytes:
+</span></span><span style="display:flex;"><span>    crc <span style="color:#f92672">=</span> fastcrc<span style="color:#f92672">.</span>crc64<span style="color:#f92672">.</span>go_iso(data)  <span style="color:#75715e"># CRC 64-bit</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> int<span style="color:#f92672">.</span>to_bytes(crc, length<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>, byteorder<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;big&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Obtaining token with user=azure and password=hunter2</span>
+</span></span><span style="display:flex;"><span>token <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://184.72.87.9:8002/auth?user=azure&amp;password=hunter2&#34;</span>)<span style="color:#f92672">.</span>text)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Creating a payload with admin user</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> xor(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span><span style="color:#f92672">+</span>xor(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;azure&#39;</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">50</span>, token)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generating MAC for admin user</span>
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> gen_mac(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span><span style="color:#f92672">+</span>xor(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;azure&#39;</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> gen_mac(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">63</span>)
+</span></span><span style="display:flex;"><span>mac <span style="color:#f92672">=</span> xor(a, b)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Modifying the MAC to be valid for the admin user</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> xor(payload, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">63</span> <span style="color:#f92672">+</span> mac)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Accessing the flag with the modified payload</span>
+</span></span><span style="display:flex;"><span>print(requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://184.72.87.9:8002/read/flag.txt?token=&#34;</span><span style="color:#f92672">+</span>payload<span style="color:#f92672">.</span>hex())<span style="color:#f92672">.</span>text)
+</span></span></code></pre></div><h2 id="flagr0llin_my_0wn_crypt0_311c4f2a">flag{r0llin_my_0wn_crypt0_311c4f2a}</h2>
+    <h4><a href="http://localhost:40275/">Back to Home</a></h4>
+</div>
+
+
+        </div><footer class="container">
+    <hr class="soften">
+    <p>
+&copy; 
+
+    Adithyan Pratheeksh Nair
+
+<span id="thisyear">2025</span>
+
+
+        | Built on <a href="//gohugo.io" target="_blank">Hugo</a>
+
+</p>
+    <p class="text-center">
+        
+        <a href="https://x.com/@adithyanPn0">Twitter</a> 
+        
+        <a href="https://github.com/a-p-n/">GitHub</a> 
+        
+    </p>
+</footer>
+
+</body><link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-responsive.css">
+<link rel="stylesheet" href="/css/style.css">
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap-386.js"></script>
+<script src="/js/bootstrap-transition.js"></script>
+<script src="/js/bootstrap-alert.js"></script>
+<script src="/js/bootstrap-modal.js"></script>
+<script src="/js/bootstrap-dropdown.js"></script>
+<script src="/js/bootstrap-scrollspy.js"></script>
+<script src="/js/bootstrap-tab.js"></script>
+<script src="/js/bootstrap-tooltip.js"></script>
+<script src="/js/bootstrap-popover.js"></script>
+<script src="/js/bootstrap-button.js"></script>
+<script src="/js/bootstrap-collapse.js"></script>
+<script src="/js/bootstrap-carousel.js"></script>
+<script src="/js/bootstrap-typeahead.js"></script>
+<script src="/js/bootstrap-affix.js"></script>
+<script>
+    _386 = { 
+        fastLoad: false ,
+        onePass: true , 
+        speedFactor: 1 
+    };
+
+    
+    function ThisYear() {
+        document.getElementById('thisyear').innerHTML = new Date().getFullYear();
+    };
+</script>
+</html>

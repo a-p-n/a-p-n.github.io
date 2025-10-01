@@ -1,0 +1,30 @@
+.post-tag {
+    background-color: #00AAAA;
+    /* Cyan background */
+    color: #000000;
+    /* Black text */
+    padding: 2px 8px;
+    margin-right: 5px;
+    text-decoration: none;
+    font-family: 'Perfect DOS VGA 437', monospace;
+    border: none;
+    text-transform: uppercase;
+}
+
+.post-tag:hover {
+    background-color: #FFFF55;
+    /* Yellow background on hover */
+    color: #000000;
+    text-decoration: none;
+}
+
+.post-content {
+    max-width: 80ch;
+    /* Limits a line to ~80 characters for easier reading */
+}
+
+.post-content p,
+.post-content li {
+    color: #c0c0c0;
+    /* Changes bright white to a softer silver/light-gray */
+}

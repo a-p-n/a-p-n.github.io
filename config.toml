@@ -38,7 +38,7 @@ preserveTaxonomyNames = true
     loadonepass = true
 
 [params.copyright]
-    name = "APN"
+    name = "Adithyan Pratheeksh Nair"
 
     # The url to use as link in the copyright name in the footer. Leave empty to use none.
     # url = "http://jmf-portfolio.netlify.com"
@@ -67,6 +67,14 @@ preserveTaxonomyNames = true
 category = "categories"
 tag = "tags"
 
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    tabWidth = 4
 
 [privacy]
 
