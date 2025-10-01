@@ -3,8 +3,7 @@ title: enCRCroach - SquareCTF 2023
 date: 2023-12-04 22:49:56
 categories:
   - Crypto
-tags:
-  - SquareCTF2023
+tags: [SquareCTF2023, CTF, Crypto]
 ---
 
 <!-- **tl;dr** -->

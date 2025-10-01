@@ -1,4 +1,4 @@
-baseURL = "https://example.com"
+baseURL = "https://a-p-n.github.io"
 title = "___apn___"
 languageCode = "en"
 DefaultContentLanguage = "en" # Change this to change the site's language
@@ -7,22 +7,22 @@ preserveTaxonomyNames = true
 
 [params]
     # The name to display as main title in the home page
-    mainpagetitle = "HALARA BLOG!"
+    mainpagetitle = "APN's BLOG!"
 
     # The subtitle to display under the title in the home page
     mainpagesubtitle = "Welcome to my BLOG!"
 
     # The description of your website. It will be displayed in the home page
-    mainpagedesc = "This theme is the Hugo port of the BOOTSTRA.386 theme for a cool retro look on your blog. Check the links below to access the posts."
+    mainpagedesc = "This is my personal blog where I post all the writeups. Check the links below to access the posts."
 
     # The name to display in the copyright section in the footer
-    copyrightname = "___apn___"
+    copyrightname = "Adithyan Pratheeksh Nair"
 
     # The url to use as link in the copyright name in the footer. Leave empty to use none.
     # copyrighturl = "http://jmf-portfolio.netlify.com"
 
     # Show the "built on Hugo" disclaimer
-    showhugo = false
+    showhugo = true
 
     # Urls for social networks
     github = "https://github.com/a-p-n/"
