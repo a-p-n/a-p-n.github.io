@@ -1,0 +1,94 @@
+baseURL = "https://a-p-n.github.io/"
+theme = "blowfish"
+
+title = "APN's Blog"
+
+languageCode = "en"
+defaultContentLanguage = "en"
+
+enableRobotsTXT = true
+summaryLength = 0
+
+buildDrafts = false
+buildFuture = false
+
+enableEmoji = true
+
+# googleAnalytics = "G-XXXXXXXXX"
+
+[pagination]
+  pagerSize = 100
+
+[imaging]
+  anchor = 'Center'
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  author = "authors"
+  series = "series"
+
+[sitemap]
+  changefreq = 'daily'
+  filename = 'sitemap.xml'
+  priority = 0.5
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[related]
+  threshold = 0
+  toLower = false
+
+    [[related.indices]]
+        name = "tags"
+        weight = 100
+
+    [[related.indices]]
+        name = "categories"
+        weight = 100
+
+    [[related.indices]]
+        name = "series"
+        weight = 50
+
+    [[related.indices]]
+        name = "authors"
+        weight = 20
+
+    [[related.indices]]
+        name = "date"
+        weight = 10
+
+    [[related.indices]]
+      applyFilter = false
+      name = 'fragmentrefs'
+      type = 'fragments'
+      weight = 10
+
+# [[menu.main]]
+#   name = "Blog"
+#   url = "/posts/"
+#   weight = 10
+# [[menu.main]]
+#   name = "About"
+#   url = "/about/"
+#   weight = 20
+
+# [params]
+#   # This is the KEY to the demo's look. It enables the correct CSS for the 
+#   # background, blur, top bar, and overall aesthetic.
+#   colorScheme = "terminal"
+
+#   description = "A blog for CTF write-ups and tech deep dives."
+  
+#   [params.author]
+#     name = "Adithyan Pratheeksh Nair"
+
+#   [params.main]
+#     animations = true
+
+[markup]
+  [markup.highlight]
+    style = "dracula"
+    noClasses = false

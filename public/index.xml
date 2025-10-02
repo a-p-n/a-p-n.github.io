@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>___apn___</title>
-    <link>http://localhost:40275/</link>
-    <description>Recent content on ___apn___</description>
-    <generator>Hugo</generator>
+    <title> </title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on  </description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Jun 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:40275/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</managingEditor>
+    <webMaster>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</webMaster>
+    <copyright>&amp;copy; 2025 Adithyan Pratheeksh Nair. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
-      <title>About Me</title>
-      <link>http://localhost:40275/about/</link>
-      <pubDate>Mon, 24 Jun 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:40275/about/</guid>
-      <description>&lt;h1 id=&#34;about-me&#34;&gt;About Me&lt;/h1&gt;&#xA;&lt;p&gt;Hi! I&amp;rsquo;m Adithyan Pratheeksh Nair &amp;ldquo;apn&amp;rdquo;, Currently a 4&amp;rsquo;th year B.Tech Computer Science Engineering specialization in Artificial Intelligence undergrad student at Amrita University.&#xA;I&amp;rsquo;m part of team bi0s (a CTF team) and I specialize in Cryptography.&lt;/p&gt;</description>
+      <title>Test Post</title>
+      <link>http://localhost:1313/posts/test-post/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/posts/test-post/</guid>
+      <description></description>
+      
     </item>
+    
     <item>
       <title>enCRCroach - SquareCTF 2023</title>
-      <link>http://localhost:40275/posts/encrcroach-squarectf23/</link>
+      <link>http://localhost:1313/posts/encrcroach-squarectf23/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <guid>http://localhost:40275/posts/encrcroach-squarectf23/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;CTR bit-flipping attack along with CRC recomputation&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/posts/encrcroach-squarectf23/</guid>
+      <description>&lt;!-- **tl;dr** --&gt;
+&lt;ul&gt;
+&lt;li&gt;CTR bit-flipping attack along with CRC recomputation&lt;/li&gt;
+&lt;/ul&gt;</description>
+      
     </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>http://localhost:1313/temp_about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/temp_about/</guid>
+      <description></description>
+      
+    </item>
+    
   </channel>
 </rss>

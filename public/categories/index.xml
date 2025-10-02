@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on ___apn___</title>
-    <link>http://localhost:40275/categories/</link>
-    <description>Recent content in Categories on ___apn___</description>
-    <generator>Hugo</generator>
+    <title>Categories on  </title>
+    <link>http://localhost:1313/categories/</link>
+    <description>Recent content in Categories on  </description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Dec 2023 22:49:56 +0000</lastBuildDate>
-    <atom:link href="http://localhost:40275/categories/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</managingEditor>
+    <webMaster>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</webMaster>
+    <copyright>&amp;copy; 2025 Adithyan Pratheeksh Nair. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Debug</title>
+      <link>http://localhost:1313/categories/debug/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/categories/debug/</guid>
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Crypto</title>
-      <link>http://localhost:40275/categories/crypto/</link>
+      <link>http://localhost:1313/categories/crypto/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <guid>http://localhost:40275/categories/crypto/</guid>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/categories/crypto/</guid>
       <description></description>
+      
     </item>
+    
   </channel>
 </rss>

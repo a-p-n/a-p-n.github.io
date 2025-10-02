@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Crypto on ___apn___</title>
-    <link>http://localhost:40275/tags/crypto/</link>
-    <description>Recent content in Crypto on ___apn___</description>
-    <generator>Hugo</generator>
+    <title>Crypto on  </title>
+    <link>http://localhost:1313/tags/crypto/</link>
+    <description>Recent content in Crypto on  </description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Dec 2023 22:49:56 +0000</lastBuildDate>
-    <atom:link href="http://localhost:40275/tags/crypto/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</managingEditor>
+    <webMaster>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</webMaster>
+    <copyright>&amp;copy; 2025 Adithyan Pratheeksh Nair. All rights reserved.</copyright>
+    <lastBuildDate>Mon, 04 Dec 2023 22:49:56 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/crypto/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>enCRCroach - SquareCTF 2023</title>
-      <link>http://localhost:40275/posts/encrcroach-squarectf23/</link>
+      <link>http://localhost:1313/posts/encrcroach-squarectf23/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <guid>http://localhost:40275/posts/encrcroach-squarectf23/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;CTR bit-flipping attack along with CRC recomputation&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/posts/encrcroach-squarectf23/</guid>
+      <description>&lt;!-- **tl;dr** --&gt;
+&lt;ul&gt;
+&lt;li&gt;CTR bit-flipping attack along with CRC recomputation&lt;/li&gt;
+&lt;/ul&gt;</description>
+      
     </item>
+    
   </channel>
 </rss>

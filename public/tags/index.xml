@@ -1,33 +1,55 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on ___apn___</title>
-    <link>http://localhost:40275/tags/</link>
-    <description>Recent content in Tags on ___apn___</description>
-    <generator>Hugo</generator>
+    <title>Tags on  </title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on  </description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Dec 2023 22:49:56 +0000</lastBuildDate>
-    <atom:link href="http://localhost:40275/tags/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</managingEditor>
+    <webMaster>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</webMaster>
+    <copyright>&amp;copy; 2025 Adithyan Pratheeksh Nair. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Testing</title>
+      <link>http://localhost:1313/tags/testing/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/tags/testing/</guid>
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Crypto</title>
-      <link>http://localhost:40275/tags/crypto/</link>
+      <link>http://localhost:1313/tags/crypto/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <guid>http://localhost:40275/tags/crypto/</guid>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/tags/crypto/</guid>
       <description></description>
+      
     </item>
+    
     <item>
       <title>CTF</title>
-      <link>http://localhost:40275/tags/ctf/</link>
+      <link>http://localhost:1313/tags/ctf/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <guid>http://localhost:40275/tags/ctf/</guid>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/tags/ctf/</guid>
       <description></description>
+      
     </item>
+    
     <item>
       <title>SquareCTF2023</title>
-      <link>http://localhost:40275/tags/squarectf2023/</link>
+      <link>http://localhost:1313/tags/squarectf2023/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <guid>http://localhost:40275/tags/squarectf2023/</guid>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/tags/squarectf2023/</guid>
       <description></description>
+      
     </item>
+    
   </channel>
 </rss>
