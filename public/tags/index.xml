@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>All Tags on ___apn___</title>
+    <title>Tags on ___apn___</title>
     <link>http://localhost:1313/tags/</link>
-    <description>Recent content in All Tags on ___apn___</description>
+    <description>Recent content in Tags on ___apn___</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</managingEditor>
@@ -22,21 +22,11 @@
     </item>
     
     <item>
-      <title>Crypto</title>
-      <link>http://localhost:1313/tags/crypto/</link>
+      <title>CRC</title>
+      <link>http://localhost:1313/tags/crc/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
       <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
-      <guid>http://localhost:1313/tags/crypto/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>CTF</title>
-      <link>http://localhost:1313/tags/ctf/</link>
-      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
-      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
-      <guid>http://localhost:1313/tags/ctf/</guid>
+      <guid>http://localhost:1313/tags/crc/</guid>
       <description></description>
       
     </item>

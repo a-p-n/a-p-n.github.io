@@ -1,7 +1,7 @@
 ---
 title: "About Me"
 showHero: true
-heroStyle: "background"
+heroStyle: "card"
 heroImage: "/images/profile.png"
 ---
 

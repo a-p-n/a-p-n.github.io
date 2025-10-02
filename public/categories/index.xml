@@ -22,7 +22,17 @@
     </item>
     
     <item>
-      <title>Crypto</title>
+      <title>Capture The Flag</title>
+      <link>http://localhost:1313/categories/ctf/</link>
+      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/categories/ctf/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Cryptography</title>
       <link>http://localhost:1313/categories/crypto/</link>
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
       <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>

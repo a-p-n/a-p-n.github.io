@@ -2,13 +2,16 @@
 title: enCRCroach - SquareCTF 2023
 date: 2023-12-04 22:49:56
 draft: false
-categories: [Crypto]
-tags: [SquareCTF2023, CTF, Crypto]
+categories: [Crypto, CTF]
+tags: [CRC, SquareCTF2023]
 ---
 
 <!-- **tl;dr** -->
 
-+ CTR bit-flipping attack along with CRC recomputation
+{{< lead >}}
+**CTR bit-flipping attack along with CRC recomputation**
+{{< /lead >}}
+
 
 <!--more-->
 

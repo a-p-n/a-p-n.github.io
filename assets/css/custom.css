@@ -1,43 +1,33 @@
-/*
- * Apply on large screens (lg breakpoint in Tailwind is typically 1024px)
- * when the sidebar is visible.
- */
+a[href^="/categories/"] span {
+    border-color: #63e2ff !important;
+    color: #007278 !important;
+}
 
- a[href^="/categories/"] span {
-    border-color: #007278 !important;
-    color: #63e2ff !important;
+html.dark {
+    a[href^="/categories/"] span {
+        border-color: #007278 !important;
+        color: #63e2ff !important;
+    }
 }
 
 @media (min-width: 1024px) {
         section.lg\:flex-row>div.min-w-0 {
             flex-basis: 70%;
-            /* Changed from 75% */
         }
 
         section.lg\:flex-row>div.lg\:order-last {
             flex-basis: 30%;
-            /* Changed from 25% */
         }
 
         .article-content {
             max-width: none !important;
         }
     }
-
-    /* * This is the most important rule. It removes the restrictive width limit 
-     * from the article content area, allowing it to fill the new, wider space.
-     */
     .article-content {
         max-width: none !important;
     }
 
-/*
- * This rule prevents horizontal scrolling on code blocks
- * by allowing long lines to wrap.
- */
 .chroma {
     white-space: pre-wrap !important;
-    /* Allows long lines of code to wrap */
     word-break: break-all !important;
-    /* Breaks long words/strings if needed */
 }
