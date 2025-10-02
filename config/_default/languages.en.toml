@@ -2,7 +2,7 @@ disabled = false
 languageCode = "en"
 languageName = "English"
 weight = 1
-title = " "
+title = "___apn___"
 
 [params]
   displayName = "EN"
@@ -18,7 +18,7 @@ title = " "
   name = "Adithyan Pratheeksh Nair"
   email = "adithyanpnair45@gmail.com"
   image = "images/profile.png"
-  imageQuality = 96
+  imageQuality = 100
   headline = "a.k.a. apn"
   bio = "A little bit about me"
   links = [

@@ -2,6 +2,12 @@
  * Apply on large screens (lg breakpoint in Tailwind is typically 1024px)
  * when the sidebar is visible.
  */
+
+ a[href^="/categories/"] span {
+    border-color: #007278 !important;
+    color: #63e2ff !important;
+}
+
 @media (min-width: 1024px) {
         section.lg\:flex-row>div.min-w-0 {
             flex-basis: 70%;
