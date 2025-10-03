@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>___apn___</title>
+    <title>Posts on ___apn___</title>
     <link>http://localhost:1313/posts/</link>
-    <description>Recent content on ___apn___</description>
+    <description>Recent content in Posts on ___apn___</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</managingEditor>
     <webMaster>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</webMaster>
-    <copyright>&amp;copy; 2025 Adithyan Pratheeksh Nair. All rights reserved.</copyright>
+    <copyright>&amp;copy; 2025 Adithyan Pratheeksh Nair</copyright>
     <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -27,10 +27,7 @@
       <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
       <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
       <guid>http://localhost:1313/posts/encrcroach-squarectf23/</guid>
-      <description>&lt;!-- **tl;dr** --&gt;
-&lt;div class=&#34;lead text-neutral-500 dark:text-neutral-400 !mb-9 text-xl&#34;&gt;
-  &lt;strong&gt;CTR bit-flipping attack along with CRC recomputation&lt;/strong&gt;
-&lt;/div&gt;</description>
+      <description></description>
       
     </item>
     

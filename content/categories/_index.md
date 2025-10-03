@@ -1,5 +1,5 @@
 ---
-title: "All Categories"
+title: "Categories"
 layout: "terms"
 description: "A list of all content categories."
 showTableOfContents: false

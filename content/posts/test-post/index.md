@@ -6,4 +6,5 @@ tags: ["testing"]
 categories: "debug"
 ---
 
-This is the content of my test post. The Blowfish theme should display this on the homepage.
+Adding all the necessary stuff for the future
+

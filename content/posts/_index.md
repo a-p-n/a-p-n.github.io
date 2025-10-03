@@ -1,3 +1,5 @@
 ---
-description: All my posts
+title: "Posts"
+description: "A list of all my posts."
+showTableOfContents: false
 ---

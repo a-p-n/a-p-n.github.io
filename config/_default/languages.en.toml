@@ -12,7 +12,7 @@ title = "___apn___"
   # logo = "images/profile.png"
   # secondaryLogo = "img/secondary-logo.png"
   description = "My awesome website"
-  copyright = "&copy; 2025 Adithyan Pratheeksh Nair. All rights reserved."
+  copyright = "&copy; 2025 Adithyan Pratheeksh Nair"
 
 [params.author]
   name = "Adithyan Pratheeksh Nair"

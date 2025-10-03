@@ -4,16 +4,14 @@ date: 2023-12-04 22:49:56
 draft: false
 categories: [Crypto, CTF]
 tags: [CRC, SquareCTF2023]
+description: "CTR bit-flipping attack along with CRC recomputation"
+showTableOfContents: true
 ---
-
-<!-- **tl;dr** -->
 
 {{< lead >}}
 **CTR bit-flipping attack along with CRC recomputation**
 {{< /lead >}}
 
-
-<!--more-->
 
 **Challenge Points**: 250
 
