@@ -3,6 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
+    <loc>http://localhost:1313/os/intro/</loc>
+    <lastmod>2023-12-04T22:49:56+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/os/mem-mngmt/</loc>
+    <lastmod>2023-12-04T22:49:56+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://localhost:1313/</loc>
     <lastmod>2025-10-03T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
@@ -34,6 +46,12 @@
   </url>
   <url>
     <loc>http://localhost:1313/posts/encrcroach-squarectf23/</loc>
+    <lastmod>2023-12-04T22:49:56+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/os/</loc>
     <lastmod>2023-12-04T22:49:56+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>

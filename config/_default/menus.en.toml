@@ -26,9 +26,43 @@
  weight = 3
 
 [[main]]
+ name = "Notes"
+ weight = 4
+
+[[main]]
+  name = "CI/CD"
+  parent = "Notes"
+  pageRef = "ci-cd"
+  weight = 4
+
+[[main]]
+  name = "CN"
+  parent = "Notes"
+  pageRef = "cn"
+  weight = 4
+
+[[main]]
+  name = "DBMS"
+  parent = "Notes"
+  pageRef = "dbms"
+  weight = 4
+
+[[main]]
+  name = "OOPS"
+  parent = "Notes"
+  pageRef = "oops"
+  weight = 4
+
+[[main]]
+  name = "OS"
+  parent = "Notes"
+  pageRef = "os"
+  weight = 4
+
+[[main]]
  name = "About"
  pageRef = "about"
- weight = 4
+ weight = 5
 
 
 # -- Footer Menu --

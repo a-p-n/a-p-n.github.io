@@ -1,13 +1,16 @@
 ---
-title: OS notes 1
+title: "1. Introduction to OS"
 date: 2023-12-04 22:49:56
-draft: true
-categories: [notes]
-tags: [Operating System]
-description: "Operating System notes"
+weight: 10
 showTableOfContents: true
 ---
-1. What is OS?
+
+{{< lead >}}
+## What is OS?
+{{< /lead >}}
 * A software program that manages computer hardware and software resources, porviding a platform for other software applications to run.
 * Acts as an intermediary b/w the user and the computer hardware, enabling users to interact with the system and execute tasks effectively.
 
+{{< lead >}}
+## 
+{{< /lead >}}

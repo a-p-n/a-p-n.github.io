@@ -12,6 +12,26 @@
     <lastBuildDate>Fri, 03 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>1. Introduction to OS</title>
+      <link>http://localhost:1313/os/intro/</link>
+      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/os/intro/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>2. Memory Management</title>
+      <link>http://localhost:1313/os/mem-mngmt/</link>
+      <pubDate>Mon, 04 Dec 2023 22:49:56 +0000</pubDate>
+      <author>adithyanpnair45@gmail.com (Adithyan Pratheeksh Nair)</author>
+      <guid>http://localhost:1313/os/mem-mngmt/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
       <title>Taskflow</title>
       <link>http://localhost:1313/projects/taskflow/</link>
       <pubDate>Fri, 03 Oct 2025 00:00:00 +0000</pubDate>
